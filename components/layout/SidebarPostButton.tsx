@@ -1,17 +1,21 @@
+import useLoginModal from "@/hooks/useLoginModal";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { RiQuillPenLine } from "react-icons/ri";
 
 interface Props {}
 
-const SidebarTweetButton: NextPage<Props> = ({}) => {
+const SidebarPostButton: NextPage<Props> = ({}) => {
   const router = useRouter();
+  const loginModal = useLoginModal();
+
+  const onClick = useCallback(() => {
+    loginModal.onOpen();
+  }, [loginModal]);
+
   return (
-    <div
-      onClick={() => {
-        router.push("/");
-      }}
-    >
+    <div onClick={onClick}>
       <div
         className='mt-6 lg:hidden rounded-full h-14 w-14 p-4 flex items-center justify-center bg-blue-700 hover:bg-opacity-80
       transition cursor-pointer'
@@ -30,4 +34,4 @@ const SidebarTweetButton: NextPage<Props> = ({}) => {
   );
 };
 
-export default SidebarTweetButton;
+export default SidebarPostButton;

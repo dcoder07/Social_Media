@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
 import SidebarLogo from "./SidebarLogo";
 import SidebarItem from "./SidebarItem";
-import SidebarTweetButton from "./SidebarTweetButton";
+import SidebarPostButton from "./SidebarPostButton";
 
 interface Props {}
 
@@ -40,7 +40,7 @@ const Sidebar: NextPage<Props> = ({}) => {
             />
           ))}
           <SidebarItem onCLick={() => {}} icon={BiLogOut} label='Logout' />
-          <SidebarTweetButton />
+          <SidebarPostButton />
         </div>
       </div>
     </div>
