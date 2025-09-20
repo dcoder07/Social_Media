@@ -4,12 +4,16 @@ import { useCallback, useState } from "react";
 import Input from "../Input";
 import InputCard from "../InputCard";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
+import useCurrentUser from "@/hooks/userCurrentUser";
 
 interface Props {}
 
 const LoginModal: NextPage<Props> = ({}) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+
+  const { mutate } = useCurrentUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,16 +27,28 @@ const LoginModal: NextPage<Props> = ({}) => {
     registerModal.onOpen();
   }, [isLoading, registerModal, loginModal]);
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     try {
       setIsLoading(true);
-      loginModal.onClose;
+      console.log("signing in...");
+      console.log({ email, password });
+
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      await mutate("/api/current");
+      setEmail("");
+      setPassword("");
+      loginModal.onClose();
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
-  }, [loginModal]);
+  };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>

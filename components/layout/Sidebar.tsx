@@ -1,31 +1,37 @@
-import { NextPage } from "next";
-import { BsBellFill, BsHouseFill } from "react-icons/bs";
-import { FaUser } from "react-icons/fa6";
+import { signOut } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
-import SidebarLogo from "./SidebarLogo";
+import { BsHouseFill, BsBellFill } from "react-icons/bs";
+import { FaUser } from "react-icons/fa";
+
+import useCurrentUser from "@/hooks/userCurrentUser";
+
 import SidebarItem from "./SidebarItem";
+import SidebarLogo from "./SidebarLogo";
 import SidebarPostButton from "./SidebarPostButton";
 
-interface Props {}
+const Sidebar = () => {
+  const { data: currentUser, mutate } = useCurrentUser();
 
-const Sidebar: NextPage<Props> = ({}) => {
+  console.log(currentUser);
+
   const items = [
     {
+      icon: BsHouseFill,
       label: "Home",
       href: "/",
-      icon: BsHouseFill,
     },
     {
+      icon: BsBellFill,
       label: "Notifications",
       href: "/notifications",
-      icon: BsBellFill,
     },
     {
-      label: "Profile",
-      href: "/user/123",
       icon: FaUser,
+      label: "Profile",
+      href: `/users/123`,
     },
   ];
+
   return (
     <div className='col-span-1 h-full pr-4 md:pr-6'>
       <div className='flex flex-col items-end'>
@@ -35,11 +41,22 @@ const Sidebar: NextPage<Props> = ({}) => {
             <SidebarItem
               key={item.href}
               href={item.href}
-              label={item.label}
               icon={item.icon}
+              label={item.label}
             />
           ))}
-          <SidebarItem onCLick={() => {}} icon={BiLogOut} label='Logout' />
+          {currentUser ? (
+            <SidebarItem
+              onCLick={async () => {
+                const res = await signOut({ redirect: false });
+                console.log("signout res: ", res);
+                mutate("/api/current");
+              }}
+              icon={BiLogOut}
+              label='Logout'
+            />
+          ) : null}
+
           <SidebarPostButton />
         </div>
       </div>

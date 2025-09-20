@@ -10,26 +10,27 @@ const SidebarPostButton: NextPage<Props> = ({}) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
-  const onClick = useCallback(() => {
+  const onClick = () => {
     loginModal.onOpen();
-  }, [loginModal]);
+  };
 
   return (
-    <div onClick={onClick}>
+    <div>
       <div
         className='mt-6 lg:hidden rounded-full h-14 w-14 p-4 flex items-center justify-center bg-blue-700 hover:bg-opacity-80
       transition cursor-pointer'
       >
         <RiQuillPenLine size={24} color='white' />
       </div>
-      <div
+      <button
+        onClick={onClick}
         className='mt-6 hidden lg:block px-4 py-2 rounded-full bg-blue-700 hover:bg-opacity-90
-      cursor-pointer transition'
+      cursor-pointer transition w-full border border-red-500'
       >
         <p className='hidden lg:block text-center font-semibold text-white text-[20px]'>
           Post
         </p>
-      </div>
+      </button>
     </div>
   );
 };
