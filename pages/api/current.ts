@@ -24,10 +24,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("Current", currentUser);
 
   if (!currentUser) {
-    return res.json(null);
+          return res.json(null);
   }
 
-  return res.json(currentUser);
+      return res.json(currentUser);
 };
 
 export default handler;

@@ -25,7 +25,7 @@ const SidebarPostButton: NextPage<Props> = ({}) => {
       <button
         onClick={onClick}
         className='mt-6 hidden lg:block px-4 py-2 rounded-full bg-blue-700 hover:bg-opacity-90
-      cursor-pointer transition w-full border border-red-500'
+      cursor-pointer transition w-full border'
       >
         <p className='hidden lg:block text-center font-semibold text-white text-[20px]'>
           Post

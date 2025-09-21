@@ -1,0 +1,39 @@
+import Header from "@/components/Header";
+import UserBio from "@/components/users/UserBio";
+import UserHero from "@/components/users/UserHero";
+import useUser from "@/hooks/useUser";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { ClipLoader } from "react-spinners";
+interface Props {}
+
+const UserView: NextPage<Props> = ({}) => {
+  const router = useRouter();
+  const { userId } = router.query;
+  const { data: fetchedUser, isLoading } = useUser(userId as string);
+
+  if (isLoading || !fetchedUser) {
+    return (
+      <div
+        className='
+      flex
+      justify-center
+      items-center
+      h-full
+      '
+      >
+        <ClipLoader color='blue' />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Header showBackArrow label='User Profile' />
+      <UserHero userId={userId as string} />
+      <UserBio userId={userId as string} />
+    </>
+  );
+};
+
+export default UserView;
