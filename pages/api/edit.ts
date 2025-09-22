@@ -15,7 +15,6 @@ export default async function handler(
   try {
     const session = (await getServerSession(req, res, authOptions)) as Session;
     const { name, username, bio, profileImage, coverImage } = req.body;
-    console.log("Session: ", session);
 
     if (!session?.user?.email) {
       return res.status(401).end();

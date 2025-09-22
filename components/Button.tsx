@@ -27,8 +27,8 @@ const Button: NextPage<ButtonProps> = ({
   rounded-full
   font-semibold
   hover:opacity-80
+  hover: cursor-pointer
   transition
-  border-2
   ${disabled ? "opacity-70 cursor-not-allowed" : ""}
   ${fullWidth ? "w-full" : "w-fit"}
   ${secondary ? "bg-white" : "bg-blue-700"}

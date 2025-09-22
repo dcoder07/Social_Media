@@ -1,3 +1,5 @@
+import useLoginModal from "@/hooks/useLoginModal";
+import useCurrentUser from "@/hooks/userCurrentUser";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -6,6 +8,7 @@ interface SidebarItemProps {
   label: string;
   href?: string;
   icon: IconType;
+  auth?: boolean;
   onCLick?: () => void;
 }
 
@@ -14,11 +17,18 @@ const SidebarItem: NextPage<SidebarItemProps> = ({
   href,
   icon: Icon,
   onCLick,
+  auth,
 }) => {
   const router = useRouter();
+  const loginModal = useLoginModal();
+  const { data: currentUser } = useCurrentUser();
+  
   const handleClick = useCallback(() => {
     if (onCLick) {
       return onCLick();
+    }
+    if (auth && !currentUser) {
+      loginModal.onOpen();
     }
     if (href) {
       router.push(href);
