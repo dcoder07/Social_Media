@@ -11,9 +11,6 @@ import SidebarPostButton from "./SidebarPostButton";
 
 const Sidebar = () => {
   const { data: currentUser, mutate } = useCurrentUser();
-
-  console.log(currentUser);
-
   const items = [
     {
       icon: BsHouseFill,

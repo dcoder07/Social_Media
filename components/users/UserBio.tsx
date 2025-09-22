@@ -4,6 +4,7 @@ import useUser from "@/hooks/useUser";
 import { NextPage } from "next";
 import Button from "../Button";
 import { BiCalendar } from "react-icons/bi";
+import useEditModal from "@/hooks/useEditModal";
 
 interface UserBioProps {
   userId: string;
@@ -12,6 +13,8 @@ interface UserBioProps {
 const UserBio: NextPage<UserBioProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
+
+  const editModal = useEditModal();
 
   const createdAt = () => {
     if (!fetchedUser?.createdAt) {
@@ -24,7 +27,7 @@ const UserBio: NextPage<UserBioProps> = ({ userId }) => {
     <div className='border-b-[1px] border-neutral-800 pb-4'>
       <div className='flex justify-end p-2'>
         {currentUser?.id === userId ? (
-          <Button secondary label='Edit' onClick={() => {}} />
+          <Button secondary label='Edit' onClick={editModal.onOpen} />
         ) : (
           <Button secondary label='Follow' onClick={() => {}} />
         )}
@@ -45,7 +48,7 @@ const UserBio: NextPage<UserBioProps> = ({ userId }) => {
         </div>
         <div className='flex flex-row items-center gap-6 mt-4'>
           <div className='flex flex-row items-center gap-1'>
-            <p className='text-white'>{fetchedUser?.followingIds.length}</p>
+            <p className='text-white'>{fetchedUser?.followingIds?.length}</p>
             <p className='text-neutral-500'>Following</p>
           </div>
           <div className='flex flex-row items-center gap-1'>

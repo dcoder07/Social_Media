@@ -9,6 +9,7 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(405).end();
   }
+
   try {
     const users = await prisma.user.findMany({
       orderBy: {

@@ -9,8 +9,6 @@ import { Session } from "next-auth";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = (await getServerSession(req, res, authOptions)) as Session;
 
-  console.log("Session: ", session);
-
   if (!session?.user?.email) {
     return res.json(null);
   }
@@ -21,13 +19,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  console.log("Current", currentUser);
-
   if (!currentUser) {
-          return res.json(null);
+    return res.json(null);
   }
 
-      return res.json(currentUser);
+  return res.json(currentUser);
 };
 
 export default handler;
