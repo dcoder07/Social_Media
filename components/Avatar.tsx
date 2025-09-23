@@ -14,7 +14,7 @@ const Avatar: NextPage<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
   const { data: fetchedUser } = useUser(userId);
   const router = useRouter();
   const onClick = useCallback(
-    (event: any) => {
+    (event: React.MouseEvent<HTMLElement>) => {
       event.stopPropagation();
       const url = `/users/${userId}`;
       router.push(url);

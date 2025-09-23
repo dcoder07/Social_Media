@@ -7,9 +7,7 @@ import useRegisterModal from "@/hooks/useRegisterModal";
 import { signIn } from "next-auth/react";
 import useCurrentUser from "@/hooks/userCurrentUser";
 
-interface Props {}
-
-const LoginModal: NextPage<Props> = ({}) => {
+const LoginModal: NextPage = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
@@ -30,8 +28,6 @@ const LoginModal: NextPage<Props> = ({}) => {
   const onSubmit = async () => {
     try {
       setIsLoading(true);
-      console.log("signing in...");
-      console.log({ email, password });
 
       const res = await signIn("credentials", {
         email,

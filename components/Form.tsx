@@ -39,6 +39,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
       mutatePosts();
       mutatePost();
     } catch (error) {
+      console.error(error);
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);

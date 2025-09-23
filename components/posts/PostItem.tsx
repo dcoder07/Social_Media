@@ -10,8 +10,25 @@ import useCurrentUser from "@/hooks/userCurrentUser";
 import useUser from "@/hooks/useUser";
 import useLike from "@/hooks/useLike";
 
+interface UserRef {
+  id?: string;
+  userId?: string; // sometimes user id may be named userId
+  name?: string;
+  username?: string;
+}
+
+interface PostData {
+  id?: string;
+  user?: UserRef;
+  createdAt?: string;
+  body?: string;
+  likedIds?: string[];
+  comments?: unknown[];
+  [key: string]: unknown;
+}
+
 interface PostItemProps {
-  data: Record<string, any>;
+  data: PostData;
   userId?: string;
 }
 
@@ -21,23 +38,24 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
 
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId as string);
-  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
+  const postIdStr = typeof data.id === "string" ? data.id : "";
+  const { hasLiked, toggleLike } = useLike({ postId: postIdStr, userId });
 
-  const goToUser = (ev: any) => {
+  const goToUser = (ev: React.MouseEvent) => {
     ev.stopPropagation();
-    const url = fetchedUser
-      ? `/users/${fetchedUser.userId}`
-      : `/users/${data.user.id}`;
+    const targetUserId = fetchedUser?.userId ?? data.user?.id ?? data.user?.userId ?? "";
+    const url = `/users/${targetUserId}`;
     router.push(url);
   };
 
   const goToPost = () => {
-    const url = fetchedUser ? `/posts/${fetchedUser.id}` : `/posts/${data.id}`;
+    const postTargetId = fetchedUser?.id ?? (typeof data.id === "string" ? data.id : "") ?? "";
+    const url = `/posts/${postTargetId}`;
     router.push(url);
   };
 
   const onLike = useCallback(
-    async (ev: any) => {
+    async (ev: React.MouseEvent) => {
       ev.stopPropagation();
 
       if (!currentUser) {
@@ -46,7 +64,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
 
       toggleLike();
     },
-    [loginModal, currentUser]
+    [loginModal, currentUser, toggleLike]
   );
 
   const createdAt = useMemo(() => {
@@ -71,7 +89,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
       '
     >
       <div className='flex flex-row items-start gap-3'>
-        <Avatar userId={fetchedUser ? fetchedUser.id : data.user.id} />
+  <Avatar userId={(fetchedUser?.id ?? data.user?.id) || ''} />
         <div>
           <div className='flex flex-row items-center gap-2'>
             <p
@@ -83,7 +101,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
                 hover:underline
             '
             >
-              {fetchedUser ? fetchedUser.name : data.user.name}
+              {fetchedUser?.name ?? data.user?.name}
             </p>
             <span
               onClick={goToUser}
@@ -95,7 +113,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
                 md:block
             '
             >
-              @{fetchedUser ? fetchedUser.username : data.user.username}
+              @{fetchedUser?.username ?? data.user?.username ?? ''}
             </span>
             <span className='text-neutral-500 text-sm'>{createdAt}</span>
           </div>
@@ -130,7 +148,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
             '
             >
               <LikeIcon size={20} color={hasLiked ? "red" : ""} />
-              <p>{data.likedIds.length}</p>
+              <p>{(data.likedIds as unknown[] | undefined)?.length ?? 0}</p>
             </div>
           </div>
         </div>

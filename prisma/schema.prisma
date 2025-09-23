@@ -64,6 +64,7 @@ model Notification{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   body String 
   userId String @db.ObjectId
-  creaetedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  hasNotifications Boolean @default(false)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

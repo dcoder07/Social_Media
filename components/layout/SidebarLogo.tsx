@@ -2,9 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { PiXLogoBold } from "react-icons/pi";
 
-interface Props {}
-
-const SidebarLogo: NextPage<Props> = ({}) => {
+const SidebarLogo: NextPage = () => {
   const router = useRouter();
   return (
     <div

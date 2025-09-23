@@ -2,15 +2,15 @@ import { NextPage } from "next";
 import CommentItem from "./CommentItem";
 
 interface CommentFeedProps {
-  comments?: Record<string, any>[];
+  comments?: { id: string; [key: string]: unknown }[];
 }
 
 const CommentFeed: NextPage<CommentFeedProps> = ({ comments = [] }) => {
   return (
     <div>
-      {comments.map((comment) => (
-        <CommentItem key={comment.id} data={comment} />
-      ))}
+      {comments.map((comment: { id: string; [key: string]: unknown }) => (
+            <CommentItem key={comment.id} data={comment} />
+          ))}
     </div>
   );
 };

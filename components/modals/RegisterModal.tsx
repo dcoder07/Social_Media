@@ -9,9 +9,7 @@ import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import useCurrentUser from "@/hooks/userCurrentUser";
 
-interface Props {}
-
-const RegisterModal: NextPage<Props> = ({}) => {
+const RegisterModal: NextPage = () => {
   const { mutate } = useCurrentUser();
 
   const loginModal = useLoginModal();
@@ -57,7 +55,7 @@ const RegisterModal: NextPage<Props> = ({}) => {
     } finally {
       setIsLoading(false);
     }
-  }, [registerModal, email, password, username, name]);
+  }, [registerModal, email, password, username, name, mutate]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>

@@ -19,16 +19,21 @@ const ImageUpload: NextPage<ImageUploadProps> = ({
   const handleChange = (base64: string) => {
     onChange(base64);
   };
-  const handleDrop = (files: any) => {
+  const handleDrop = (files: File[]) => {
     const file = files[0];
     const reader = new FileReader();
 
-    reader.onload = (event: any) => {
-      setBase(event.target.result);
-      handleChange(event.target.result);
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      const result = event.target?.result as string | null;
+      if (result) {
+        setBase(result);
+        handleChange(result);
+      }
     };
 
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({

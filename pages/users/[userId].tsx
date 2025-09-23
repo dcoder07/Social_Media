@@ -6,9 +6,7 @@ import useUser from "@/hooks/useUser";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
-interface Props {}
-
-const UserView: NextPage<Props> = ({}) => {
+const UserView: NextPage = () => {
   const router = useRouter();
   const { userId } = router.query;
   const { data: fetchedUser, isLoading } = useUser(userId as string);

@@ -1,13 +1,8 @@
 import useLoginModal from "@/hooks/useLoginModal";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useCallback } from "react";
 import { RiQuillPenLine } from "react-icons/ri";
 
-interface Props {}
-
-const SidebarPostButton: NextPage<Props> = ({}) => {
-  const router = useRouter();
+const SidebarPostButton: NextPage = () => {
   const loginModal = useLoginModal();
 
   const onClick = () => {

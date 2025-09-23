@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import Avatar from "../Avatar";
 
 interface CommentItemProps {
-  data: Record<string, any>;
+  data: { id: string; user?: { id?: string; name?: string; username?: string }; createdAt?: string; body?: string; userId?: string; [key: string]: unknown };
 }
 
 const CommentItem: NextPage<CommentItemProps> = ({ data }) => {
   const router = useRouter();
 
-  const goToUser = (event: any) => {
+  const goToUser = (event: React.MouseEvent) => {
     event.stopPropagation();
     router.push(`/users/${data.userId}`);
   };
@@ -32,7 +32,7 @@ const CommentItem: NextPage<CommentItemProps> = ({ data }) => {
       '
     >
       <div className='flex flex-row items-start gap-3'>
-        <Avatar userId={data.user.id} />
+  <Avatar userId={data.user?.id || ''} />
         <div>
           <div className='flex flex-row items-center gap-2'>
             <p
@@ -44,7 +44,7 @@ const CommentItem: NextPage<CommentItemProps> = ({ data }) => {
                 hover:underline
             '
             >
-              {data.user.name}
+              {data.user?.name}
             </p>
             <span
               onClick={goToUser}
@@ -56,7 +56,7 @@ const CommentItem: NextPage<CommentItemProps> = ({ data }) => {
                 md:block
             '
             >
-              @{data.user.username}
+              @{data.user?.username}
             </span>
             <span className='text-neutral-500 text-sm'>{createdAt()}</span>
           </div>

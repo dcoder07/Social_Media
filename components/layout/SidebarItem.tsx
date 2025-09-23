@@ -4,11 +4,14 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
+import { BsDot } from "react-icons/bs";
+
 interface SidebarItemProps {
   label: string;
   href?: string;
   icon: IconType;
   auth?: boolean;
+  alert?: boolean;
   onCLick?: () => void;
 }
 
@@ -18,11 +21,12 @@ const SidebarItem: NextPage<SidebarItemProps> = ({
   icon: Icon,
   onCLick,
   auth,
+  alert,
 }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const { data: currentUser } = useCurrentUser();
-  
+
   const handleClick = useCallback(() => {
     if (onCLick) {
       return onCLick();
@@ -33,7 +37,7 @@ const SidebarItem: NextPage<SidebarItemProps> = ({
     if (href) {
       router.push(href);
     }
-  }, [router, onCLick, href]);
+  }, [router, onCLick, href, auth, currentUser, loginModal]);
   return (
     <div
       onClick={handleClick}
@@ -44,10 +48,16 @@ const SidebarItem: NextPage<SidebarItemProps> = ({
   cursor-pointer lg:hidden'
       >
         <Icon size={20} color='white' />
+        {alert ? (
+          <BsDot className='text-sky-700 absolute -top-4 left-0' size={70} />
+        ) : null}
       </div>
       <div className='relative hidden w-full lg:flex items-center gap-4 p-4 rounded-full hover:bg-slate-900 hover:bg-opacity-10 '>
         <Icon size={24} color='white' />
         <p className='text-white text-xl hidden lg:block'>{label}</p>
+        {alert ? (
+          <BsDot className='text-sky-700 absolute -top-4 left-0' size={70} />
+        ) : null}
       </div>
     </div>
   );

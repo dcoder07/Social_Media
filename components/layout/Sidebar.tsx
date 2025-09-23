@@ -21,11 +21,14 @@ const Sidebar = () => {
       icon: BsBellFill,
       label: "Notifications",
       href: "/notifications",
+      auth: true,
+      alert: currentUser?.hasNotification || false,
     },
     {
       icon: FaUser,
       label: "Profile",
       href: `/users/123`,
+      auth: true,
     },
   ];
 
@@ -40,13 +43,14 @@ const Sidebar = () => {
               href={item.href}
               icon={item.icon}
               label={item.label}
+              auth={item.auth}
+              alert={item.alert}
             />
           ))}
           {currentUser ? (
             <SidebarItem
               onCLick={async () => {
-                const res = await signOut({ redirect: false });
-                console.log("signout res: ", res);
+                await signOut({ redirect: false });
                 mutate("/api/current");
               }}
               icon={BiLogOut}
